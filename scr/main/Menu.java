@@ -16,14 +16,11 @@ public class Menu {
     Queue queueObj = new Queue(); //Criando um objeto da classe Queue
 
     public void menu() {
-        System.out.println("=====================================================");
-        System.out.println("*          Sistema de Gerenciamento de Hotel        *");
-        System.out.println("=====================================================");
+        System.out.println("*          Sistema de Gerenciamento de Hotel         *");
+        System.out.println("-                                                    *");
         System.out.println("* V. Visualizar todos os quartos                     *");
-        System.out.println("* A. Adicionar cliente ao quarto                     *");
-        System.out.println("* D. Remover cliente do quarto                       *");
         System.out.println("* Q. Sair do Programa                                *");
-        System.out.println("======================================================");
+        System.out.println("-                                                    *");
         System.out.println("");
         System.out.println("Escolha uma das opções acima. (Ex: Digite 'V' para ver todos os quartos)");
 
