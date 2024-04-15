@@ -18,11 +18,11 @@ public class Menu {
     public void menu() {
         System.out.println("*          Sistema de Gerenciamento de Hotel         *");
         System.out.println("-                                                    *");
-        System.out.println("* V. Visualizar todos os quartos                     *");
-        System.out.println("* Q. Sair do Programa                                *");
+        System.out.println("* 1. Visualizar todos os quartos                     *");
+        System.out.println("* 2. Sair do Programa                                *");
         System.out.println("-                                                    *");
         System.out.println("");
-        System.out.println("Escolha uma das opções acima. (Ex: Digite 'V' para ver todos os quartos)");
+        System.out.println("Escolha uma das opções acima. (Ex: Digite '1' para visualizar todos os quartos)");
 
         do {
             System.out.println();
@@ -32,19 +32,19 @@ public class Menu {
 
             switch (selecao) {
 
-                case "v":
+                case "1":
                     visualizarQuartos();
                     break;
                     
-                case "q":
+                case "2":
                     System.out.println("Obrigado!");
                     break;
 
                 default:
-                    System.out.println("Entrada inválida! Por favor insira uma destas letras: V,Q");
+                    System.out.println("Entrada inválida! Por favor insira uma das opções a seguir: 1 ou 2");
             }
         }
-        while (!(escolha.equalsIgnoreCase("v") || escolha.equalsIgnoreCase("q"))); 
+        while (!(escolha.equalsIgnoreCase("1") || escolha.equalsIgnoreCase("2"))); 
     }
 
     public void initialize() {
