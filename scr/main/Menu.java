@@ -16,13 +16,13 @@ public class Menu {
     Queue queueObj = new Queue(); //Criando um objeto da classe Queue
 
     public void menu() {
-        System.out.println("*          Sistema de Gerenciamento de Hotel         *");
+        System.out.println("*          Sistema de Gerenciamento de Hoteis       *");
         System.out.println("-                                                    *");
-        System.out.println("* 1. Visualizar todos os quartos                     *");
+        System.out.println("* 1. Visualizar todos os hoteis                     *");
         System.out.println("* 2. Sair do Programa                                *");
         System.out.println("-                                                    *");
         System.out.println("");
-        System.out.println("Escolha uma das opções acima. (Ex: Digite '1' para visualizar todos os quartos)");
+        System.out.println("Escolha uma das opções acima. (Ex: Digite '1' para visualizar todos os hoteis)");
 
         do {
             System.out.println();
@@ -56,9 +56,9 @@ public class Menu {
     public void visualizarQuartos() {
         for (int x = 1; x < 11; x++) {
             if (!meuHotel[x].getName().equals("e")) {
-                System.out.println("Quarto N°. " + x + " ocupado por " + meuHotel[x].getName());
+                System.out.println("Hotel N°. " + x + " ocupado por " + meuHotel[x].getName());
             } else {
-                System.out.println("Quarto N°. " + x + " está vazio.");
+                System.out.println("Hotel N°. " + x + " está vazio.");
             }
 
         }
