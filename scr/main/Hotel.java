@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class Hotel {
 
+    /*Hotel hotel = new Hotel();*/
     Quarto quarto = new Quarto();
 
     public void menuHotel() {
@@ -10,7 +11,7 @@ public class Hotel {
         int escolhaHotel = menu.menuOpcoes(opcoesHoteis); // Use a instância para chamar o método
 
         // Exibe o menu de opções do hotel escolhido
-        String[] opcoesHotel = {"Ver quartos", "Informações do hotel", "Retornar ao menu principal"};
+        String[] opcoesHotel = {"Ver quartos", "Informações do hotel", "Voltar"};
         int escolhaOpcaoHotel = menu.menuOpcoes(opcoesHotel); // Use a instância para chamar o método
 
         // Trata a escolha do usuário
@@ -25,8 +26,7 @@ public class Hotel {
                 break;
             case 3:
                 // Retornar ao menu principal
-                System.out.println("Retornando ao menu principal...");
-                break;
+                menuHotel();
             default:
                 System.out.println("Opção inválida!");
         }

@@ -26,7 +26,7 @@ public class Quarto {
             System.out.println("Quarto " + escolhaQuarto + " selecionado.");
 
             // Opções para o quarto selecionado
-            String[] opcoesQuarto = {"Reservar", "Ver detalhes do quarto", "Ver detalhes do proprietário", "Voltar"};
+            String[] opcoesQuarto = {"Reservar", "Ver detalhes do quarto", "Voltar"};
             int escolhaOpcaoQuarto = menu.menuOpcoes(opcoesQuarto);
 
             // Realiza a ação escolhida pelo usuário
@@ -38,9 +38,7 @@ public class Quarto {
                     verDetalhesQuarto(escolhaQuarto);
                     break;
                 case 3:
-                    verDetalhesProprietario(escolhaQuarto);
-                    break;
-                case 4:
+                    listarQuartos();
                     // Voltar ao menu de quartos
                     return;
                 default:
@@ -66,11 +64,6 @@ public class Quarto {
         // Implemente a lógica para ver detalhes do quarto aqui
     }
 
-    // Método para ver detalhes do proprietário do quarto
-    private void verDetalhesProprietario(int numQuarto) {
-        System.out.println("Detalhes do proprietário do quarto " + numQuarto);
-        // Implemente a lógica para ver detalhes do proprietário aqui
-    }
 }
 
 /*public class Room {
