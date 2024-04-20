@@ -2,6 +2,8 @@ import java.util.Scanner;
 
 public class Hotel {
 
+    Quarto quarto = new Quarto();
+
     public void menuHotel() {
         MenuHotel menu = new MenuHotel(); // Crie uma instância de MenuHotel
         String[] opcoesHoteis = {"Hotel A", "Hotel B", "Hotel C"};
@@ -16,7 +18,7 @@ public class Hotel {
             case 1:
                 // Lógica para visualizar os quartos do hotel
                 System.out.println("Visualizando quartos do " + opcoesHoteis[escolhaHotel - 1]);
-                break;
+                quarto.listarQuartos();
             case 2:
                 // Lógica para exibir informações do hotel
                 System.out.println("Informações do " + opcoesHoteis[escolhaHotel - 1]);

@@ -6,7 +6,7 @@ public class Menu {
 
     Scanner input = new Scanner(System.in);
 
-    Room[] meuHotel = new Room[11];
+    Quarto[] meuHotel = new Quarto[11];
 
     static int escolha;
     static String nomeQuarto;
@@ -51,13 +51,15 @@ public class Menu {
     } while (escolha != 1 && escolha != 2);
 
 }
+
+
     public void initialize() {
         for (int x = 1; x < 11; x++) {
-            meuHotel[x] = new Room(); //Criando 10 objetos de ambiente
+            meuHotel[x] = new Quarto(); //Criando 10 objetos de ambiente
         }
     }
 
-    public void visualizarQuartos() {
+    /*public void visualizarQuartos() {
         for (int x = 1; x < 11; x++) {
             if (!meuHotel[x].getName().equals("e")) {
                 System.out.println("Hotel N°. " + x + " ocupado por " + meuHotel[x].getName());
@@ -67,7 +69,7 @@ public class Menu {
 
         }
         menu();
-    }
+    }*/
 
 }
 
