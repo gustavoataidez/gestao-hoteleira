@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import dao.HotelDAO;
+
 public class Menu {
 
     Scanner input = new Scanner(System.in);
@@ -16,19 +18,18 @@ public class Menu {
     Queue queueObj = new Queue(); //Criando um objeto da classe Queue
 
     Hotel hotel = new Hotel();
+    
 
     public void menu() {
-        System.out.println("*          Sistema de Gerenciamento de Hoteis        *");
-        System.out.println("-                                                    *");
-        System.out.println("* 1. Visualizar todos os hoteis                      *");
-        System.out.println("* 2. Sair do Programa                                *");
-        System.out.println("-                                                    *");
-        System.out.println("");
-        System.out.println("Escolha uma das opções acima. (Ex: Digite '1' para visualizar todos os hoteis)");
-
+        System.out.println("=====================================================");
+        System.out.println("|          Sistema de Gerenciamento de Hotel        |");
+        System.out.println("|---------------------------------------------------|");
+        System.out.println("| 1. Visualizar todos os hoteis                     |");
+        System.out.println("| 2. Sair do Programa                               |");
+        System.out.println("=====================================================");
+        System.out.println(" ");
         
     do {
-        System.out.println();
         System.out.print("Escolha: ");
         while (!input.hasNextInt()) { // Verifica se a entrada do usuário não é um número inteiro
             System.out.println("Entrada inválida! Por favor, insira um valor válido.");
@@ -40,8 +41,9 @@ public class Menu {
         switch (escolha) {
             case 1:
                 /*visualizarQuartos();*/
-                hotel.menuHotel();
-                break;
+                new HotelDAO().mostrarHoteis();
+                menu(); //Método de menu de chamada */;
+                return;
             case 2:
                 System.out.println("Obrigado!");
                 break;
