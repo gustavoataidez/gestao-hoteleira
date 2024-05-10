@@ -3,6 +3,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import dao.HotelDAO;
+import dao.ReservaDAO;
 
 public class Menu {
 
@@ -25,7 +26,8 @@ public class Menu {
         System.out.println("|          Sistema de Gerenciamento de Hotel        |");
         System.out.println("|---------------------------------------------------|");
         System.out.println("| 1. Visualizar todos os hoteis                     |");
-        System.out.println("| 2. Sair do Programa                               |");
+        System.out.println("| 2. Fazer Reserva                                  |");
+        System.out.println("| 8. Sair do Programa                               |");
         System.out.println("=====================================================");
         System.out.println(" ");
         
@@ -40,17 +42,20 @@ public class Menu {
 
         switch (escolha) {
             case 1:
-                /*visualizarQuartos();*/
                 new HotelDAO().mostrarHoteis();
                 menu(); //Método de menu de chamada */;
                 return;
             case 2:
+                new ReservaDAO().cadastrarReserva();
+                menu();
+                return;
+            case 8:
                 System.out.println("Obrigado!");
                 break;
             default:
                 System.out.println("Entrada inválida! Por favor insira uma das opções a seguir: 1 ou 2");
         }
-    } while (escolha != 1 && escolha != 2);
+    } while (escolha != 1 && escolha != 2 && escolha != 8);
 
 }
 
