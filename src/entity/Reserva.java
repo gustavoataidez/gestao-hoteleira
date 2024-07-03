@@ -7,7 +7,7 @@ public class Reserva {
     private String res_data_entrada;
     private String res_data_saida;
     private Character res_status;
-
+    
     public Integer getHotel() {
         return hotel;
     }

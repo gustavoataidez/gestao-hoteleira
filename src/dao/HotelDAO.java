@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 
 import conexao.Conexao;
 
-
 public class HotelDAO {
     public void mostrarHoteis(){
         String sql = "SELECT * FROM HOTEL";
@@ -21,12 +20,13 @@ public class HotelDAO {
                     System.out.println("Hotel " + codigo + ": " + nome);
                 }
 
+                ps.execute();
+                ps.close();
 
         } catch (Exception e) {
             System.out.println("ERRO: " + e.getMessage());
             // Lidar com a exceção aqui
         }
-        System.out.println(" ");
 
     }
 }
