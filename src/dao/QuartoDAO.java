@@ -4,19 +4,18 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import conexao.Conexao;
-
-import entity.Quarto;
+import dto.Quarto;
 
 public class QuartoDAO {
     
 
     // Método para listar os quartos por ID do hotel
-    public List<entity.Quarto> listarQuartosPorHotel(int intHotel) {
+    public List<dto.Quarto> listarQuartosPorHotel(int intHotel) {
         String sql = "SELECT * FROM quarto WHERE qua_hot = ?";
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        List<entity.Quarto> listaQuartos = new ArrayList<entity.Quarto>();
+        List<dto.Quarto> listaQuartos = new ArrayList<dto.Quarto>();
 
         try {
             ps = Conexao.getConexao().prepareStatement(sql);
@@ -29,7 +28,7 @@ public class QuartoDAO {
                 String nome = rs.getString("qua_nome");
                 int camas = rs.getInt("qua_camas");
                 int valor_dia = rs.getInt("qua_valor_dia");
-                entity.Quarto quarto = new Quarto(codigo, numero, nome, camas,valor_dia);
+                dto.Quarto quarto = new Quarto(codigo, numero, nome, camas,valor_dia);
                 listaQuartos.add(quarto);
             }
             return listaQuartos;
@@ -37,7 +36,6 @@ public class QuartoDAO {
             System.out.println("ERRO: " + e.getMessage());
             // Lidar com a exceção aqui
         }
-        System.out.println(" ");
 
         listaQuartos.toString();
         return null;

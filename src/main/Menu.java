@@ -1,9 +1,10 @@
 package main;
 
+import java.util.List;
 import java.util.Scanner;
 
 import dao.HotelDAO;
-import dto.QuartoDTO;
+import dao.QuartoDAO;
 
 public class Menu {
 
@@ -15,7 +16,6 @@ public class Menu {
     static String resposta;
 
     HotelDAO hotel = new HotelDAO();
-    QuartoDTO quartoDTO = new QuartoDTO();
 
     public void menu() {
         System.out.println("*----------------------------------------------------*");
@@ -45,7 +45,17 @@ public class Menu {
                 hotel.mostrarHoteis();
                 break;
             case 2:
-                quartoDTO.mostrarQuartos();
+                System.out.println("Digite o ID do hotel: ");
+                try (Scanner input = new Scanner(System.in)) {
+                    int escolhaHotel = input.nextInt();
+                    dao.QuartoDAO quartoDAO = new QuartoDAO();
+                    List<dto.Quarto> quartos = quartoDAO.listarQuartosPorHotel(escolhaHotel);
+                    for (dto.Quarto quarto : quartos) {
+                        System.out.println(quarto);
+                    }
+                    System.out.println("\n");
+                }
+                
                 break;
             case 9:
                 System.out.println("Obrigado!");
