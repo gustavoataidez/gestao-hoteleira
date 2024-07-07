@@ -1,32 +1,29 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import conexao.Conexao;
-
-public class HotelDAO {
-    public void mostrarHoteis(){
+public class HotelDAO extends BaseDAO { // Herda de BaseDAO
+    public void mostrarHoteis() {
         String sql = "SELECT * FROM HOTEL";
-
         PreparedStatement ps = null;
 
         try {
-                ps = Conexao.getConexao().prepareStatement(sql);
-                ResultSet resultado = ps.executeQuery();
-                while(resultado.next()){
-                    String codigo = resultado.getString("hot_id");
-                    String nome = resultado.getString("hot_nome");
-                    System.out.println("Hotel " + codigo + ": " + nome);
-                }
+            Connection conn = getConnection(); // Usa o método da classe base
+            ps = conn.prepareStatement(sql); // Usa o método da classe base
+            ResultSet resultado = ps.executeQuery();
+            while (resultado.next()) {
+                String codigo = resultado.getString("hot_id");
+                String nome = resultado.getString("hot_nome");
+                System.out.println("Hotel " + codigo + ": " + nome);
+            }
 
-                ps.execute();
-                ps.close();
-
+            ps.execute();
+            ps.close();
         } catch (Exception e) {
             System.out.println("ERRO: " + e.getMessage());
             // Lidar com a exceção aqui
         }
-
     }
 }
