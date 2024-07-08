@@ -1,11 +1,11 @@
 package dto;
 
-public class Quarto {
-    private int codigo;
-    private int hotel;
-    private String nome;
-    private int camas;
-    private int valor_dia;
+public abstract class Quarto {
+    protected int codigo;
+    protected int hotel;
+    protected String nome;
+    protected int camas;
+    protected int valor_dia;
     
     public Quarto(int codigo, int hotel, String nome, int camas, int valor_dia) {
         this.codigo = codigo;
@@ -49,5 +49,65 @@ public class Quarto {
     @Override
     public String toString() {
         return "QUARTO [id:" + codigo + " | " + nome + " | " + camas + " camas | valor da diária: R$" + valor_dia + ",00 ]";
+    }
+}
+
+class QuartoStandard extends Quarto {
+    public QuartoStandard(int codigo, int hotel, String nome, int camas, int valor_dia) {
+        super(codigo, hotel, nome, camas, valor_dia);
+    }
+}
+
+class QuartoDeluxe extends Quarto {
+    private boolean temJacuzzi;
+
+    public QuartoDeluxe(int codigo, int hotel, String nome, int camas, int valor_dia, boolean temJacuzzi) {
+        super(codigo, hotel, nome, camas, valor_dia);
+        this.temJacuzzi = temJacuzzi;
+    }
+
+    public boolean isTemJacuzzi() {
+        return temJacuzzi;
+    }
+
+    public void setTemJacuzzi(boolean temJacuzzi) {
+        this.temJacuzzi = temJacuzzi;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " | Deluxe: " + (temJacuzzi ? "Com Jacuzzi" : "Sem Jacuzzi");
+    }
+}
+
+class QuartoPresidencial extends Quarto {
+    private boolean temSalaDeEstar;
+    private boolean temPiscinaPrivativa;
+
+    public QuartoPresidencial(int codigo, int hotel, String nome, int camas, int valor_dia, boolean temSalaDeEstar, boolean temPiscinaPrivativa) {
+        super(codigo, hotel, nome, camas, valor_dia);
+        this.temSalaDeEstar = temSalaDeEstar;
+        this.temPiscinaPrivativa = temPiscinaPrivativa;
+    }
+
+    public boolean isTemSalaDeEstar() {
+        return temSalaDeEstar;
+    }
+
+    public void setTemSalaDeEstar(boolean temSalaDeEstar) {
+        this.temSalaDeEstar = temSalaDeEstar;
+    }
+
+    public boolean isTemPiscinaPrivativa() {
+        return temPiscinaPrivativa;
+    }
+
+    public void setTemPiscinaPrivativa(boolean temPiscinaPrivativa) {
+        this.temPiscinaPrivativa = temPiscinaPrivativa;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " | Presidencial: " + (temSalaDeEstar ? "Com Sala de Estar" : "Sem Sala de Estar") + " | " + (temPiscinaPrivativa ? "Com Piscina Privativa" : "Sem Piscina Privativa");
     }
 }
