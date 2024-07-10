@@ -1,12 +1,12 @@
 package dao;
 
+import dto.Quarto;
+import dto.QuartoDeluxe;
+import dto.QuartoPresidencial;
+import dto.QuartoStandard;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import dto.Quarto;
-import dto.QuartoStandard;
-import dto.QuartoDeluxe;
-import dto.QuartoPresidencial;
 
 public class QuartoDAO extends BaseDAO { 
     public List<Quarto> listarQuartosPorHotel(int intHotel) {
