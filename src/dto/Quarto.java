@@ -1,6 +1,6 @@
 package dto;
 
-public abstract class Quarto {
+public class Quarto {
     protected int codigo;
     protected int hotel;
     protected String nome;

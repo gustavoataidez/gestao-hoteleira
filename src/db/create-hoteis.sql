@@ -32,6 +32,10 @@ CREATE TABLE IF NOT EXISTS quarto (
     qua_id        SERIAL PRIMARY KEY,
     qua_hot       INTEGER NOT NULL REFERENCES hotel (hot_id) ON DELETE CASCADE,
     qua_nome      VARCHAR(50),
+    qua_tipo      VARCHAR(50),
+    qua_jacuzzi   VARCHAR(50),
+    qua_sala_de_estar      VARCHAR(50),
+    qua_piscina_privativa  VARCHAR(50),
     qua_camas     NUMERIC(2),
     qua_valor_dia NUMERIC(10)
 );
