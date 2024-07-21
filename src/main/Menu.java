@@ -84,20 +84,6 @@ public class Menu {
                 }
                 break;
 
-                    /*
-                    System.out.println("Digite o ID do hotel: ");
-                    try (Scanner input = new Scanner(System.in)) {
-                        int escolhaHotel = input.nextInt();
-                        dao.QuartoDAO quartoDAO = new QuartoDAO();
-                        List<dto.Quarto> quartos = quartoDAO.listarQuartosPorHotel(escolhaHotel);
-                        for (dto.Quarto quarto : quartos) {
-                            System.out.println(quarto);
-                        }
-                        System.out.println("\n");
-                    }
-                    
-                    break;
-                     */
                 case 3:
                     adicionarHotel();
                     break;
@@ -120,7 +106,55 @@ public class Menu {
 
 }
 
+private void adicionarHotel() {
+    Hotel novoHotel = new Hotel();
+    input.nextLine(); // Limpa o buffer do scanner
 
+    System.out.println("Digite o nome do hotel: ");
+    novoHotel.setNome(input.nextLine());
+
+    System.out.println("Digite o endereco do hotel: ");
+    novoHotel.setEndereco(input.nextLine());
+
+    System.out.println("Digite o bairro do hotel: ");
+    novoHotel.setBairro(input.nextLine());
+
+    System.out.println("Digite a cidade do hotel: ");
+    novoHotel.setCidade(input.nextLine());
+
+    System.out.println("Digite o estado do hotel: ");
+    novoHotel.setEstado(input.nextLine());
+
+    System.out.println("Digite o site do hotel: ");
+    novoHotel.setSite(input.nextLine());
+
+    System.out.println("Digite o telefone do hotel: ");
+    novoHotel.setTelefone(input.nextLine());
+
+    // Entrada de estrelas com verificação de erro
+    boolean entradaValida = false;
+    while (!entradaValida) {
+        System.out.println("Digite as estrelas do hotel: ");
+        if (input.hasNextInt()) {
+            novoHotel.setEstrelas(input.nextInt());
+            entradaValida = true;
+        } else {
+            System.out.println("Entrada inválida! Por favor, insira um valor numérico para as estrelas.");
+            input.next(); // Descarta a entrada inválida
+        }
+    }
+    input.nextLine(); // Limpa o buffer do scanner
+
+    System.out.println("Digite a observacao do hotel: ");
+    novoHotel.setObservacao(input.nextLine());
+
+    System.out.println("Digite o status do hotel: ");
+    novoHotel.setStatus(input.nextLine());
+
+    hotel.adicionarHotel(novoHotel); // Chama o método do DAO para adicionar o hotel ao banco de dados
+}
+
+/* 
 private void adicionarHotel() {
     Hotel novoHotel = new Hotel();
     input.nextLine();
@@ -157,6 +191,7 @@ private void adicionarHotel() {
 
         hotel.adicionarHotel(novoHotel);
 }
+*/
 
 private void atualizarHotel() {
     System.out.println("Digite o ID do hotel a ser atualizado: ");
