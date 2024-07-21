@@ -1,5 +1,6 @@
 package main;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -54,6 +55,36 @@ public class Menu {
                     hotel.mostrarHoteis();
                     break;
                 case 2:
+                    
+                    System.out.println("Digite o ID do hotel: ");
+                    try {
+                        if (!input.hasNextInt()) {
+                        throw new IllegalArgumentException("ID do hotel deve ser um número inteiro.");
+                    }
+                    int escolhaHotel = input.nextInt();
+
+                    QuartoDAO quartoDAO = new QuartoDAO();
+                    List<dto.Quarto> quartos = quartoDAO.listarQuartosPorHotel(escolhaHotel);
+
+                    if (quartos.isEmpty()) {
+                    System.out.println("Nenhum quarto encontrado para o ID de hotel fornecido.");
+                    } else {
+                    for (dto.Quarto quarto : quartos) {
+                        System.out.println(quarto);
+                    }
+                    System.out.println("\n");
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Erro: " + e.getMessage());
+                    input.nextLine(); // Limpa o buffer
+                } catch (SQLException e) {
+                    System.out.println("Erro ao acessar a base de dados: " + e.getMessage());
+                } catch (Exception e) {
+                    System.out.println("Ocorreu um erro inesperado: " + e.getMessage());
+                }
+                break;
+
+                    /*
                     System.out.println("Digite o ID do hotel: ");
                     try (Scanner input = new Scanner(System.in)) {
                         int escolhaHotel = input.nextInt();
@@ -66,6 +97,7 @@ public class Menu {
                     }
                     
                     break;
+                     */
                 case 3:
                     adicionarHotel();
                     break;

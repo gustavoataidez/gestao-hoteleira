@@ -1,5 +1,6 @@
 package dao;
 
+
 import dto.Quarto;
 import dto.QuartoDeluxe;
 import dto.QuartoPresidencial;
@@ -8,6 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/* 
 public class QuartoDAO extends BaseDAO { 
     public List<Quarto> listarQuartosPorHotel(int intHotel) {
         String sql = "SELECT * FROM quarto WHERE qua_hot = ?";
@@ -41,3 +43,4 @@ public class QuartoDAO extends BaseDAO {
         return listaQuartos;
     }
 }
+*/
