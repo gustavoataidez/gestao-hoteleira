@@ -18,9 +18,11 @@ public class Menu {
 
     HotelDAO hotel = new HotelDAO();
 
+    
     public void menu() {
 
         do {
+            
             System.out.println("*----------------------------------------------------*");
             System.out.println("*          Sistema de Gerenciamento de Hoteis        *");
             System.out.println("*                                                    *");
@@ -37,6 +39,8 @@ public class Menu {
             
             System.out.println();
             System.out.print("Escolha: ");
+            
+
             while (!input.hasNextInt()) { // Verifica se a entrada do usuário não é um número inteiro
                 System.out.println("Entrada inválida! Por favor, insira um valor válido.");
                 System.out.print("Escolha: ");
@@ -78,7 +82,7 @@ public class Menu {
                     System.out.println("Obrigado!");
                     break;
                 default:
-                    System.out.println("Entrada inválida! Por favor insira uma das opções a seguir: 1 ou 2");
+                    System.out.println("Entrada inválida! Por favor insira uma das opções a seguir: ");
             }
         } while (escolha != 1 && escolha != 2 && escolha != 9);
 
