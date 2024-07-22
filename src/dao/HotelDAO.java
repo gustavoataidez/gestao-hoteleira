@@ -154,93 +154,30 @@ public void adicionarHotel(Hotel hotel) {
         }
     }
     
-/*
-   public void atualizarHotel(int id, Hotel hotel) {
-    StringBuilder sql = new StringBuilder("UPDATE HOTEL SET ");
-    List<Object> params = new ArrayList<>();
-
-    if (hotel.getNome() != null) {
-        sql.append("hot_nome = ?, ");
-        params.add(hotel.getNome());
-    }
-    if (hotel.getEndereco() != null) {
-        sql.append("hot_end = ?, ");
-        params.add(hotel.getEndereco());
-    }
-    if (hotel.getBairro() != null) {
-        sql.append("hot_bairro = ?, ");
-        params.add(hotel.getBairro());
-    }
-    if (hotel.getCidade() != null) {
-        sql.append("hot_cid = ?, ");
-        params.add(hotel.getCidade());
-    }
-    if (hotel.getEstado() != null) {
-        sql.append("hot_estado = ?, ");
-        params.add(hotel.getEstado());
-    }
-    if (hotel.getTelefone() != null) {
-        sql.append("hot_tel = ?, ");
-        params.add(hotel.getTelefone());
-    }
-    if (hotel.getEstrelas() >= 1 && hotel.getEstrelas() <= 5) {
-        sql.append("hot_estrelas = ?, ");
-        params.add(hotel.getEstrelas());
-    }
-    if (hotel.getObservacao() != null) {
-        sql.append("hot_obs = ?, ");
-        params.add(hotel.getObservacao());
-    }
-    if (hotel.getSite() != null) {
-        sql.append("hot_site = ?, ");
-        params.add(hotel.getSite());
-    }
-    if (hotel.getStatus() != null) {
-        sql.append("hot_status = ?, ");
-        params.add(hotel.getStatus());
-    }
-
-    // Remove a última vírgula e espaço
-    sql.setLength(sql.length() - 2);
-
-    sql.append(" WHERE hot_id = ?");
-    params.add(id);
-
-    try (Connection conn = Conexao.getConexao();
-         PreparedStatement ps = conn.prepareStatement(sql.toString())) {
-
-        // Define os parâmetros no PreparedStatement
-        for (int i = 0; i < params.size(); i++) {
-            ps.setObject(i + 1, params.get(i));
-        }
-
-        // Executa a atualização
-        int rowsAffected = ps.executeUpdate();
-        if (rowsAffected > 0) {
-            System.out.println("Hotel atualizado com sucesso!");
-        } else {
-            System.out.println("Nenhum hotel foi atualizado. Verifique o ID fornecido.");
-        }
-
-    } catch (SQLException e) {
-        System.out.println("ERRO ao atualizar hotel: " + e.getMessage());
-    }
-}
-*/
-
+    
     public void deletarHotel(int id) {
+        if (!hotelExiste(id)) {
+            System.out.println("Hotel com ID " + id + " não encontrado.");
+            return;
+        }
+    
         String sql = "DELETE FROM HOTEL WHERE hot_id = ?";
-
+    
         try (Connection conn = Conexao.getConexao();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-
+    
             ps.setInt(1, id);
-
-            ps.executeUpdate();
-            System.out.println("Hotel deletado com sucesso!");
-
-        } catch (Exception e) {
-            System.out.println("ERRO: " + e.getMessage());
+    
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Hotel deletado com sucesso!");
+            } else {
+                System.out.println("Nenhum hotel foi deletado. Verifique o ID fornecido.");
+            }
+    
+        } catch (SQLException e) {
+            System.out.println("ERRO ao deletar hotel: " + e.getMessage());
         }
     }
+    
 }
