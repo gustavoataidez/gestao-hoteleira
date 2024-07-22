@@ -1,5 +1,6 @@
 package main;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -7,12 +8,14 @@ import java.util.Scanner;
 
 import dao.HotelDAO;
 import dao.QuartoDAO;
+import dao.ReservaDAO;
 import dto.Hotel;
-
+import dto.Reserva;
 
 public class Menu {
 
     Scanner input = new Scanner(System.in);
+    ReservaDAO reservaDAO = new ReservaDAO();
 
     static int escolha;
     static String nomeQuarto;
@@ -34,6 +37,8 @@ public class Menu {
             System.out.println("* 3. Adicionar Hotel                                 *");
             System.out.println("* 4. Atualizar Hotel                                 *");
             System.out.println("* 5. Deletar Hotel                                   *");
+            System.out.println("* 6. Adicionar Reserva                               *");
+            System.out.println("* 7. Listar Reservas                                 *");
             System.out.println("* 9. Sair do Programa                                *");
             System.out.println("*----------------------------------------------------*");
             System.out.println("");
@@ -98,6 +103,13 @@ public class Menu {
                     deletarHotel();
                     break;   
 
+                case 6:
+                    adicionarReserva();
+                    break;
+                    
+                case 7:
+                    listarReservas();
+                    break;
                 case 9:
                     System.out.println("Obrigado!");
                     break;
@@ -106,6 +118,45 @@ public class Menu {
             }
         } while (escolha != 1 && escolha != 2 && escolha != 9);
 
+}
+
+
+private void adicionarReserva() {
+    Reserva reserva = new Reserva();
+    input.nextLine(); // Limpa o buffer do scanner
+
+    System.out.println("Digite o ID do hotel: ");
+    reserva.setHotel(input.nextInt());
+
+    System.out.println("Digite o ID do quarto: ");
+    reserva.setQuarto(input.nextInt());
+
+    input.nextLine(); // Limpa o buffer do scanner
+    System.out.println("Digite o nome do cliente: ");
+    reserva.setCliente(input.nextLine());
+
+    System.out.println("Digite a data de entrada (AAAA-MM-DD): ");
+    reserva.setRes_data_entrada(Date.valueOf(input.nextLine()));
+
+    System.out.println("Digite a data de saída (AAAA-MM-DD): ");
+    reserva.setRes_data_saida(Date.valueOf(input.nextLine()));
+
+    reservaDAO.adicionarReserva(reserva);
+}
+
+private void listarReservas() {
+System.out.println("Digite o ID do hotel: ");
+int hotelId = input.nextInt();
+
+ List<Reserva> reservas = reservaDAO.listarReservasPorHotel(hotelId);
+
+if (reservas.isEmpty()) {
+    System.out.println("Nenhuma reserva encontrada para o ID de hotel fornecido.");
+} else {
+    for (Reserva reserva : reservas) {
+        System.out.println("Reserva [ID: " + " | Cliente: " + reserva.getCliente() + " | Telefone: "  + " | Entrada: " + reserva.getRes_data_entrada() + " | Saída: " + reserva.getRes_data_saida() + "]");
+    }
+}
 }
 
 private void adicionarHotel() {

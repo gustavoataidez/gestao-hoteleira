@@ -1,11 +1,13 @@
 package dto;
 
+import java.sql.Date;
+
 public class Reserva {
     private Integer hotel;
     private Integer quarto;
     private String cliente;
-    private String res_data_entrada;
-    private String res_data_saida;
+    private Date res_data_entrada;
+    private Date res_data_saida;
     private Character res_status;
     
     public Integer getHotel() {
@@ -26,17 +28,17 @@ public class Reserva {
     public void setCliente(String cliente) {
         this.cliente = cliente;
     }
-    public String getRes_data_entrada() {
+    public Date getRes_data_entrada() {
         return res_data_entrada;
     }
-    public void setRes_data_entrada(String res_data_entrada) {
-        this.res_data_entrada = res_data_entrada;
+    public Date setRes_data_entrada(Date date) {
+        return this.res_data_entrada = date;
     }
-    public String getRes_data_saida() {
+    public Date getRes_data_saida() {
         return res_data_saida;
     }
-    public void setRes_data_saida(String res_data_saida) {
-        this.res_data_saida = res_data_saida;
+    public Date setRes_data_saida(Date date) {
+        return this.res_data_saida = date;
     }
     public Character getRes_status() {
         return res_status;
