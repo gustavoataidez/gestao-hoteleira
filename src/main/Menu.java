@@ -1,12 +1,14 @@
 package main;
 
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 import dao.HotelDAO;
 import dao.QuartoDAO;
 import dto.Hotel;
+
 
 public class Menu {
 
@@ -154,7 +156,174 @@ private void adicionarHotel() {
     hotel.adicionarHotel(novoHotel); // Chama o método do DAO para adicionar o hotel ao banco de dados
 }
 
+private void atualizarHotel() {
+    
+    System.out.println("Digite o ID do hotel a ser atualizado: ");
+    int id;
+    try {
+        id = input.nextInt();
+        input.nextLine();
+    } catch (InputMismatchException e) {
+        System.out.println("ID inválido! Por favor, insira um número.");
+        input.nextLine();  // Limpa o buffer
+        return;
+    }
 
+    HotelDAO hotelDAO = new HotelDAO();
+    
+    // Verifica se o hotel com o ID fornecido existe
+    if (!hotelDAO.hotelExiste(id)) {
+        System.out.println("Hotel com ID " + id + " não encontrado.");
+        return;
+    }
+
+    boolean atualizarOutroCampo = true;
+
+    Hotel hotelAtualizado = new Hotel();
+    hotelAtualizado.setId(id);
+
+    while (atualizarOutroCampo) {
+        System.out.println("*----------------------------------------------------*");
+        System.out.println("*            Escolha o campo a ser atualizado        *");
+        System.out.println("*                                                    *");
+        System.out.println("* 1. Nome                                            *");
+        System.out.println("* 2. Endereço                                        *");
+        System.out.println("* 3. Bairro                                          *");
+        System.out.println("* 4. Cidade                                          *");
+        System.out.println("* 5. Estado                                          *");
+        System.out.println("* 6. Telefone                                        *");
+        System.out.println("* 7. Estrelas                                        *");
+        System.out.println("* 8. Observação                                      *");
+        System.out.println("* 9. Site                                            *");
+        System.out.println("* 10. Status                                         *");
+        System.out.println("* 11. Voltar ao menu principal                       *");
+        System.out.println("*----------------------------------------------------*");
+        System.out.println("");
+        System.out.println("Escolha uma das opções acima.");
+
+        System.out.print("Escolha: ");
+        while (!input.hasNextInt()) {
+            System.out.println("Entrada inválida! Por favor, insira um valor válido.");
+            System.out.print("Escolha: ");
+            input.next();
+        }
+        int campoEscolhido = input.nextInt();
+        input.nextLine();
+
+        switch (campoEscolhido) {
+            case 1:
+                System.out.println("Digite o novo nome do hotel: ");
+                String nome = input.nextLine();
+                if (!nome.isEmpty()) {
+                    hotelAtualizado.setNome(nome);
+                    System.out.println("Nome atualizado com sucesso!");
+                }
+                break;
+            case 2:
+                System.out.println("Digite o novo endereco do hotel: ");
+                String endereco = input.nextLine();
+                if (!endereco.isEmpty()) {
+                    hotelAtualizado.setEndereco(endereco);
+                    System.out.println("Endereço atualizado com sucesso!");
+                }
+                break;
+            case 3:
+                System.out.println("Digite o novo bairro do hotel: ");
+                String bairro = input.nextLine();
+                if (!bairro.isEmpty()) {
+                    hotelAtualizado.setBairro(bairro);
+                    System.out.println("Bairro atualizado com sucesso!");
+                }
+                break;
+            case 4:
+                System.out.println("Digite a nova cidade do hotel: ");
+                String cidade = input.nextLine();
+                if (!cidade.isEmpty()) {
+                    hotelAtualizado.setCidade(cidade);
+                    System.out.println("Cidade atualizada com sucesso!");
+                }
+                break;
+            case 5:
+                System.out.println("Digite o novo estado do hotel: ");
+                String estado = input.nextLine();
+                if (!estado.isEmpty()) {
+                    hotelAtualizado.setEstado(estado);
+                    System.out.println("Estado atualizado com sucesso!");
+                }
+                break;
+            case 6:
+                System.out.println("Digite o novo telefone do hotel: ");
+                String telefone = input.nextLine();
+                if (!telefone.isEmpty()) {
+                    hotelAtualizado.setTelefone(telefone);
+                    System.out.println("Telefone atualizado com sucesso!");
+                }
+                break;
+            case 7:
+                try {
+                    System.out.println("Digite as novas estrelas do hotel: ");
+                    int estrelas = input.nextInt();
+                    if (estrelas >= 1 && estrelas <= 5) {
+                        hotelAtualizado.setEstrelas(estrelas);
+                        System.out.println("Estrelas atualizadas com sucesso!");
+                    } else {
+                        System.out.println("Número de estrelas inválido! Por favor, insira um valor entre 1 e 5.");
+                    }
+                    input.nextLine();
+                } catch (InputMismatchException e) {
+                    System.out.println("Entrada inválida! Por favor, insira um número.");
+                    input.nextLine();  // Limpa o buffer
+                }
+                break;
+            case 8:
+                System.out.println("Digite a nova observação do hotel: ");
+                String observacao = input.nextLine();
+                if (!observacao.isEmpty()) {
+                    hotelAtualizado.setObservacao(observacao);
+                    System.out.println("Observação atualizada com sucesso!");
+                }
+                break;
+            case 9:
+                System.out.println("Digite o novo site do hotel: ");
+                String site = input.nextLine();
+                if (!site.isEmpty()) {
+                    hotelAtualizado.setSite(site);
+                    System.out.println("Site atualizado com sucesso!");
+                }
+                break;
+            case 10:
+                System.out.println("Digite o novo status do hotel: ");
+                String status = input.nextLine();
+                if (!status.isEmpty()) {
+                    hotelAtualizado.setStatus(status);
+                    System.out.println("Status atualizado com sucesso!");
+                }
+                break;
+            case 11:
+                atualizarOutroCampo = false;
+                break;
+            default:
+                System.out.println("Entrada inválida! Por favor, escolha uma opção válida.");
+        }
+        
+        if (atualizarOutroCampo) {
+            System.out.println("Deseja atualizar outro campo? (s/n)");
+            String resposta = input.nextLine();
+            if (resposta.equalsIgnoreCase("n")) {
+                atualizarOutroCampo = false;
+            }
+        }
+    }
+
+    try {
+        hotel.atualizarHotel(id, hotelAtualizado);
+        System.out.println("Hotel atualizado com sucesso!");
+    } catch (Exception e) {
+        System.out.println("Erro ao atualizar o hotel: " + e.getMessage());
+    }
+}
+
+/*
 private void atualizarHotel() {
     System.out.println("Digite o ID do hotel a ser atualizado: ");
     int id = input.nextInt();
@@ -253,6 +422,7 @@ private void atualizarHotel() {
 
     hotel.atualizarHotel(id, hotelAtualizado);
 }
+*/
 
 private void deletarHotel() {
     System.out.println("Digite o ID do hotel a ser deletado: ");
