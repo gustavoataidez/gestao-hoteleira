@@ -32,7 +32,40 @@ public class HotelDAO extends BaseDAO { // Herda de BaseDAO
             // Lidar com a exceção aqui
         }
     }
-public void adicionarHotel(Hotel hotel) {
+
+
+    public Hotel obterHotelPorId(int id) {
+        Hotel hotel = null;
+        String query = "SELECT * FROM Hotel WHERE hot_id = ?";
+    
+        try (Connection connection = Conexao.getConexao();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+    
+            if (resultSet.next()) {
+                hotel = new Hotel();
+                hotel.setId(resultSet.getInt("hot_id"));
+                hotel.setNome(resultSet.getString("hot_nome"));
+                hotel.setEndereco(resultSet.getString("hot_end"));
+                hotel.setBairro(resultSet.getString("hot_bairro"));
+                hotel.setCidade(resultSet.getString("hot_cid"));
+                hotel.setEstado(resultSet.getString("hot_estado"));
+                hotel.setTelefone(resultSet.getString("hot_tel"));
+                hotel.setEstrelas(resultSet.getInt("hot_estrelas"));
+                hotel.setObservacao(resultSet.getString("hot_obs"));
+                hotel.setSite(resultSet.getString("hot_site"));
+                hotel.setStatus(resultSet.getString("hot_status"));
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao obter hotel: " + e.getMessage());
+        }
+    
+        return hotel;
+    }
+     
+    public void adicionarHotel(Hotel hotel) {
         String sql = "INSERT INTO HOTEL (hot_nome, hot_end, hot_bairro, hot_cid, hot_estado, hot_tel, hot_estrelas, hot_obs, hot_site, hot_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Conexao.getConexao();
