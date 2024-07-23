@@ -1,5 +1,8 @@
 package dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Hotel {
     private int id;
     private String nome;
@@ -12,6 +15,27 @@ public class Hotel {
     private int estrelas;
     private String observacao;
     private String status;
+    private List<Quarto> quartos;
+
+    public Hotel() {
+        quartos = new ArrayList<>();
+    }
+
+    public List<Quarto> getQuartos() {
+        return quartos;
+    }
+
+    public void setQuartos(List<Quarto> quartos) {
+        this.quartos = quartos;
+    }
+
+    public void adicionarQuarto(Quarto quarto) {
+        this.quartos.add(quarto);
+    }
+
+    public void removerQuarto(Quarto quarto) {
+        this.quartos.remove(quarto);
+    }
 
     public int getId() {
         return id;
