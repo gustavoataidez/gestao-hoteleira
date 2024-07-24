@@ -1,16 +1,25 @@
 package main;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
+import conexao.Conexao;
+import dao.FuncionarioDAO;
 import dao.HotelDAO;
 import dao.PessoaFisicaDAO;
 import dao.PessoaJuridicaDAO;
 import dao.QuartoDAO;
 import dao.ReservaDAO;
+import dto.Funcionario;
 import dto.Hotel;
 import dto.PessoaFisica;
 import dto.PessoaJuridica;
@@ -24,6 +33,7 @@ public class Menu {
 
     Scanner input = new Scanner(System.in);
     ReservaDAO reservaDAO = new ReservaDAO();
+    FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 
     static int escolha;
     static String nomeQuarto;
@@ -42,7 +52,7 @@ public class Menu {
             System.out.println("* 1. Hoteis                                          *");
             System.out.println("* 2. Quartos                                         *");
             System.out.println("* 3. Reserva                                         *");
-            System.out.println("* 4. Clientes                                        *");
+            System.out.println("* 4. Pessoas                                         *");
             System.out.println("* 5. Sair do Programa                                *");
             System.out.println("*----------------------------------------------------*");
             System.out.println("");
@@ -170,27 +180,79 @@ private void adicionarPessoaJuridica(){
     PessoaJuridicaDAO.cadastrarPessoaJuridica(pj);
 }
 
+private int getValorDiaria(int quartoId) {
+    String sql = "SELECT qua_valor_dia FROM quarto WHERE qua_id = ?";
+    try (Connection conn = Conexao.getConexao();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, quartoId);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("qua_valor_dia");
+            }
+        }
+    } catch (Exception e) {
+        System.out.println("ERRO ao buscar o valor da diária: " + e.getMessage());
+        e.printStackTrace();
+    }
+    return 0;
+}
+
 public void adicionarReserva() {
+    SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat dbFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     System.out.print("Digite o ID do hotel: ");
     int hotelId = input.nextInt();
 
     System.out.print("Digite o ID do quarto: ");
     int quartoId = input.nextInt();
 
-    System.out.print("Digite o nome do cliente: ");
+    System.out.print("Digite o user do cliente: ");
     String clienteNome = input.next();
 
-    System.out.print("Digite a data de entrada (YYYY-MM-DD): ");
-    Date dataEntrada = Date.valueOf(input.next());
+    if (!isClienteCadastrado(clienteNome)) {
+        System.out.println("Erro: Cliente não cadastrado.");
+        return;
+    }
 
-    System.out.print("Digite a data de saída (YYYY-MM-DD): ");
-    Date dataSaida = Date.valueOf(input.next());
+    Date dataEntrada = null;
+    Date dataSaida = null;
+
+    while (dataEntrada == null) {
+        System.out.print("Digite a data de entrada (DD-MM-YYYY): ");
+        String dataEntradaStr = input.next();
+        try {
+            java.util.Date utilDateEntrada = inputFormat.parse(dataEntradaStr);
+            dataEntrada = Date.valueOf(dbFormat.format(utilDateEntrada));
+        } catch (ParseException e) {
+            System.out.println("Data de entrada inválida. Por favor, use o formato DD-MM-YYYY.");
+        }
+    }
+
+    while (dataSaida == null) {
+        System.out.print("Digite a data de saída (DD-MM-YYYY): ");
+        String dataSaidaStr = input.next();
+        try {
+            java.util.Date utilDateSaida = inputFormat.parse(dataSaidaStr);
+            dataSaida = Date.valueOf(dbFormat.format(utilDateSaida));
+        } catch (ParseException e) {
+            System.out.println("Data de saída inválida. Por favor, use o formato DD-MM-YYYY.");
+        }
+    }
 
     // Verifica se o quarto está disponível
     if (!reservaDAO.isQuartoDisponivel(hotelId, quartoId, dataEntrada, dataSaida)) {
         System.out.println("Erro: O quarto não está disponível para o período solicitado.");
         return;
     }
+
+    
+    // Calcular o valor total da diária
+    int valorDiaria = getValorDiaria(quartoId);
+    long diffInMillies = Math.abs(dataSaida.getTime() - dataEntrada.getTime());
+    long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+    double valorTotal = diff * valorDiaria;
+    System.out.println("O valor total da sua estadia é: R$ " + valorTotal);
 
     // Se o quarto estiver disponível, adicione a reserva
     Reserva reserva = new Reserva();
@@ -201,7 +263,23 @@ public void adicionarReserva() {
     reserva.setRes_data_saida(dataSaida);
 
     reservaDAO.adicionarReserva(reserva);
-    System.out.println("Reserva adicionada com sucesso!");
+}
+
+private boolean isClienteCadastrado(String clienteNome) {
+    String sql = "SELECT COUNT(*) FROM pessoa WHERE usuario = ?";
+    try (Connection conn = Conexao.getConexao();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, clienteNome);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true;
+            }
+        }
+    } catch (Exception e) {
+        System.out.println("ERRO ao verificar cliente: " + e.getMessage());
+        e.printStackTrace();
+    }
+    return false;
 }
 
 private void listarReservas() {
@@ -214,7 +292,7 @@ if (reservas.isEmpty()) {
     System.out.println("Nenhuma reserva encontrada para o ID de hotel fornecido.");
 } else {
     for (Reserva reserva : reservas) {
-        System.out.println("Reserva [ID: " + " | Cliente: " + reserva.getCliente() + " | Telefone: "  + " | Entrada: " + reserva.getRes_data_entrada() + " | Saída: " + reserva.getRes_data_saida() + "]");
+        System.out.println("Reserva [ID: " + reserva.getId() + " | Usuário: " + reserva.getCliente() + " | Entrada: " + reserva.getRes_data_entrada() + " | Saída: " + reserva.getRes_data_saida() + "]");
     }
 }
 }
@@ -694,7 +772,8 @@ private void menuClientes() {
         System.out.println("*                   Menu Clientes                    *");
         System.out.println("*                                                    *");
         System.out.println("* 1. Adicionar Cliente                               *");
-        System.out.println("* 2. Voltar ao Menu Principal                        *");
+        System.out.println("* 2. Adicionar Funcionário                           *");
+        System.out.println("* 3. Voltar ao Menu Principal                        *");
         System.out.println("*----------------------------------------------------*");
         System.out.println("");
         System.out.println("Escolha uma das opções acima.");
@@ -712,6 +791,9 @@ private void menuClientes() {
                 cadastrarCliente();
                 break;
             case 2:
+                adicionarFuncionario();
+                break;
+            case 3:
                 System.out.println("Voltando ao Menu Principal...");
                 break;
             default:
@@ -719,6 +801,35 @@ private void menuClientes() {
         }
     } while (escolhaCliente != 2);
 }
+
+
+private void adicionarFuncionario(){
+    Funcionario funcionario = new Funcionario();
+
+    System.out.println("User: ");
+    funcionario.setUser(input.nextLine());
+
+    System.out.println("Nome: ");
+    funcionario.setNome(input.nextLine());
+
+    System.out.println("Telefone: ");
+    funcionario.setTel(input.nextLine());
+
+    System.out.println("CPF: ");
+    funcionario.setCpf(input.nextInt());
+
+    System.out.println("Sexo (S/M/O): ");
+    funcionario.setSexo(input.nextLine());
+
+    System.out.println("Cargo: ");
+    funcionario.setCargo(input.nextLine());
+
+    System.out.println("Salário: ");
+    funcionario.setSalario(input.nextInt());
+
+    funcionarioDAO.cadastrarFuncionario(funcionario);
+}
+
 
 }
 

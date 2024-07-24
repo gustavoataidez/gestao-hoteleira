@@ -41,7 +41,7 @@ public class ReservaDAO extends BaseDAO {
             return;
         }
 
-        String sql = "INSERT INTO reserva (res_hot, res_qua, res_cli, res_data_entrada, res_data_saida) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO reserva (res_hot, res_qua, res_pessoa, res_data_entrada, res_data_saida) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, reserva.getHotel());
@@ -59,9 +59,9 @@ public class ReservaDAO extends BaseDAO {
     }
 
     public List<Reserva> listarReservasPorHotel(int hotelId) {
-        String sql = "SELECT r.res_id, CONCAT(c.cli_pnome, ' ', c.cli_unome) AS cliente_nome, c.cli_tel AS telefone, r.res_data_entrada, r.res_data_saida " +
+        String sql = "SELECT r.res_id, p.nome AS nome, p.telefone AS telefone, r.res_data_entrada, r.res_data_saida " +
                      "FROM reserva r " +
-                     "JOIN cliente c ON r.res_cli = c.cli_usuario " +
+                     "JOIN pessoa p ON r.res_pessoa = p.usuario " +
                      "WHERE r.res_hot = ?";
         List<Reserva> reservas = new ArrayList<>();
     
@@ -73,7 +73,7 @@ public class ReservaDAO extends BaseDAO {
             while (rs.next()) {
                 Reserva reserva = new Reserva();
                 reserva.setId(rs.getInt("res_id")); // Agora deve corresponder ao método setId na classe Reserva
-                reserva.setCliente(rs.getString("cliente_nome"));
+                reserva.setCliente(rs.getString("nome"));
                 reserva.setTelefone(rs.getString("telefone")); // Agora deve corresponder ao método setTelefone na classe Reserva
                 reserva.setRes_data_entrada(rs.getDate("res_data_entrada"));
                 reserva.setRes_data_saida(rs.getDate("res_data_saida"));
