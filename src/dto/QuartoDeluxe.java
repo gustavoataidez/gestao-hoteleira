@@ -3,8 +3,8 @@ package dto;
 public class QuartoDeluxe extends Quarto {
     private boolean temJacuzzi;
 
-    public QuartoDeluxe(int codigo, int hotel, String nome, int camas, int valor_dia, boolean temJacuzzi) {
-        super(codigo, hotel, nome, camas, valor_dia);
+    public QuartoDeluxe(int idHotel, String nome, int camas, int valorDia, boolean temJacuzzi) {
+        super(idHotel, nome, camas, valorDia,true,temJacuzzi);
         this.temJacuzzi = temJacuzzi;
     }
 
