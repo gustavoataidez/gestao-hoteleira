@@ -39,108 +39,49 @@ public class Menu {
             System.out.println("*----------------------------------------------------*");
             System.out.println("*          Sistema de Gerenciamento de Hoteis        *");
             System.out.println("*                                                    *");
-            System.out.println("* 1. Visualizar todos os hoteis                      *");
-            System.out.println("* 2. Listar Quartos                                  *");
-            System.out.println("* 3. Adicionar Hotel                                 *");
-            System.out.println("* 4. Atualizar Hotel                                 *");
-            System.out.println("* 5. Deletar Hotel                                   *");
-            System.out.println("* 6. Adicionar Reserva                               *");
-            System.out.println("* 7. Listar Reservas                                 *");
-            System.out.println("* 8. Adicionar Cliente                               *");
-            System.out.println("* 9. Adicionar Quarto                                *");
-            System.out.println("* 10. Atualizar Quarto                               *");
-            System.out.println("* 11. Deletar Quarto                                 *");
-            System.out.println("* 12. Sair do Programa                               *");
+            System.out.println("* 1. Hoteis                                          *");
+            System.out.println("* 2. Quartos                                         *");
+            System.out.println("* 3. Reserva                                         *");
+            System.out.println("* 4. Clientes                                        *");
+            System.out.println("* 5. Sair do Programa                                *");
             System.out.println("*----------------------------------------------------*");
             System.out.println("");
-            System.out.println("Escolha uma das opções acima. (Ex: Digite '1' para visualizar todos os hoteis)");
-
-
+            System.out.println("Escolha uma das opções acima.");
+    
             System.out.println();
             System.out.print("Escolha: ");
-
-
-            while (!input.hasNextInt()) { // Verifica se a entrada do usuário não é um número inteiro
+    
+            while (!input.hasNextInt()) { 
                 System.out.println("Entrada inválida! Por favor, insira um valor válido.");
                 System.out.print("Escolha: ");
-                input.next(); // Descarta a entrada inválida
+                input.next(); 
             }
             escolha = input.nextInt();
-
+    
             switch (escolha) {
                 case 1:
-                    hotel.mostrarHoteis();
+                    menuHoteis();
                     break;
                 case 2:
-
-                    System.out.println("Digite o ID do hotel: ");
-                    try {
-                        if (!input.hasNextInt()) {
-                        throw new IllegalArgumentException("ID do hotel deve ser um número inteiro.");
-                    }
-                    int escolhaHotel = input.nextInt();
-
-                    QuartoDAO quartoDAO = new QuartoDAO();
-                    List<dto.Quarto> quartos = quartoDAO.listarQuartosPorHotel(escolhaHotel);
-
-                    if (quartos.isEmpty()) {
-                    System.out.println("Nenhum quarto encontrado para o ID de hotel fornecido.");
-                    } else {
-                    for (dto.Quarto quarto : quartos) {
-                        System.out.println(quarto);
-                    }
-                    System.out.println("\n");
-                    }
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Erro: " + e.getMessage());
-                    input.nextLine(); // Limpa o buffer
-                } catch (SQLException e) {
-                    System.out.println("Erro ao acessar a base de dados: " + e.getMessage());
-                } catch (Exception e) {
-                    System.out.println("Ocorreu um erro inesperado: " + e.getMessage());
-                }
-                break;
-
+                    menuQuartos();
+                    break;
                 case 3:
-                    adicionarHotel();
+                    menuReserva();
                     break;
-
                 case 4:
-                atualizarHotel();
-                break;
-
+                    menuClientes();
+                    break;
                 case 5:
-                    deletarHotel();
-                    break;
-
-                case 6:
-                    adicionarReserva();
-                    break;
-
-                case 7:
-                    listarReservas();
-                    break;
-                case 8:
-                    cadastrarCliente();
-                    break;
-                case 9:
-                    adicionarQuarto();
-                    break;
-                case 10:
-                    //atualizarQuarto();
-                    break;
-                case 11:
-                   deletarQuarto();
-                    break;
-                case 12:
                     System.out.println("Obrigado!");
                     break;
                 default:
                     System.out.println("Entrada inválida! Por favor insira uma das opções a seguir: ");
             }
-        } while (escolha != 1 && escolha != 2 && escolha != 9);
+            
+         } while (escolha != 5);
+        
+    }
 
-}
 
 private void cadastrarCliente() {
     String siglaPessoa = "";
@@ -294,7 +235,7 @@ private void adicionarHotel() {
     System.out.println("Digite a cidade do hotel: ");
     novoHotel.setCidade(input.nextLine());
 
-    System.out.println("Digite o estado do hotel: ");
+    System.out.println("Digite o estado do hotel: (Sigla)");
     novoHotel.setEstado(input.nextLine());
 
     System.out.println("Digite o site do hotel: ");
@@ -320,8 +261,8 @@ private void adicionarHotel() {
     System.out.println("Digite a observacao do hotel: ");
     novoHotel.setObservacao(input.nextLine());
 
-    System.out.println("Digite o status do hotel: ");
-    novoHotel.setStatus(input.nextLine());
+    System.out.println("Digite o status do hotel:(Ativo  - S | Não Ativo - N) ");
+    novoHotel.setStatus(input.nextLine().trim().toUpperCase());
 
     hotel.adicionarHotel(novoHotel); // Chama o método do DAO para adicionar o hotel ao banco de dados
 }
@@ -498,10 +439,10 @@ private void deletarHotel() {
     int id;
     try {
         id = input.nextInt();
-        input.nextLine(); // Limpa o buffer
+        input.nextLine(); 
     } catch (InputMismatchException e) {
         System.out.println("ID inválido! Por favor, insira um número.");
-        input.nextLine(); // Limpa o buffer
+        input.nextLine(); 
         return;
     }
 
@@ -517,7 +458,7 @@ private void deletarHotel() {
 private void adicionarQuarto() {
     System.out.println("Digite o ID do hotel ao qual deseja adicionar um quarto: ");
     int hotelId = input.nextInt();
-    input.nextLine(); // Consumir a nova linha após a entrada do ID do hotel
+    input.nextLine(); 
 
     HotelDAO hotelDAO = new HotelDAO(); // Criação da instância de HotelDAO
     Hotel hotel = hotelDAO.obterHotelPorId(hotelId); // Chamada do método através da instância
@@ -529,11 +470,11 @@ private void adicionarQuarto() {
 
     System.out.println("Digite o número de camas:");
     int camas = input.nextInt();
-    input.nextLine(); // Consumir a nova linha após a entrada do número de camas
+    input.nextLine(); 
 
     System.out.println("Digite o valor diário:");
     int valorDia = input.nextInt();
-    input.nextLine(); // Consumir a nova linha após a entrada do valor diário
+    input.nextLine(); 
 
     System.out.println("O quarto tem sala de estar? (s/n)");
     boolean temSalaDeEstar = input.nextLine().equalsIgnoreCase("s");
@@ -541,7 +482,7 @@ private void adicionarQuarto() {
     System.out.println("O quarto tem jacuzzi? (s/n)");
     boolean temJacuzzi = input.nextLine().equalsIgnoreCase("s");
 
-    // Criar o quarto com base nas condições
+    
     Quarto quarto;
 
     String nomeQuarto;
@@ -594,5 +535,190 @@ private void deletarQuarto() {
     
     quartoDAO.deletarQuarto(id, hotel);
 }
+private void menuHoteis() {
+    int escolhaHotel;
+    do {
+        System.out.println("*----------------------------------------------------*");
+        System.out.println("*                   Menu Hoteis                      *");
+        System.out.println("*                                                    *");
+        System.out.println("* 1. Visualizar todos os hoteis                      *");
+        System.out.println("* 2. Adicionar Hotel                                 *");
+        System.out.println("* 3. Atualizar Hotel                                 *");
+        System.out.println("* 4. Deletar Hotel                                   *");
+        System.out.println("* 5. Voltar ao Menu Principal                        *");
+        System.out.println("*----------------------------------------------------*");
+        System.out.println("");
+        System.out.println("Escolha uma das opções acima.");
+
+        System.out.print("Escolha: ");
+        while (!input.hasNextInt()) { 
+            System.out.println("Entrada inválida! Por favor, insira um valor válido.");
+            System.out.print("Escolha: ");
+            input.next(); 
+        }
+        escolhaHotel = input.nextInt();
+
+        switch (escolhaHotel) {
+            case 1:
+                hotel.mostrarHoteis();
+                break;
+            case 2:
+                adicionarHotel();
+                break;
+            case 3:
+                atualizarHotel();
+                break;
+            case 4:
+                deletarHotel();
+                break;
+            case 5:
+                System.out.println("Voltando ao Menu Principal...");
+                break;
+            default:
+                System.out.println("Entrada inválida! Por favor insira uma das opções a seguir: ");
+        }
+    } while (escolhaHotel != 5);
+}
+
+private void menuQuartos() {
+    int escolhaQuarto;
+    do {
+        System.out.println("*----------------------------------------------------*");
+        System.out.println("*                   Menu Quartos                     *");
+        System.out.println("*                                                    *");
+        System.out.println("* 1. Listar Quartos                                  *");
+        System.out.println("* 2. Adicionar Quarto                                *");
+        System.out.println("* 3. Atualizar Quarto                                *");
+        System.out.println("* 4. Deletar Quarto                                  *");
+        System.out.println("* 5. Voltar ao Menu Principal                        *");
+        System.out.println("*----------------------------------------------------*");
+        System.out.println("");
+        System.out.println("Escolha uma das opções acima.");
+
+        System.out.print("Escolha: ");
+        while (!input.hasNextInt()) { 
+            System.out.println("Entrada inválida! Por favor, insira um valor válido.");
+            System.out.print("Escolha: ");
+            input.next(); 
+        }
+        escolhaQuarto = input.nextInt();
+
+        switch (escolhaQuarto) {
+            case 1:
+                System.out.println("Digite o ID do hotel: ");
+                try {
+                    if (!input.hasNextInt()) {
+                    throw new IllegalArgumentException("ID do hotel deve ser um número inteiro.");
+                }
+                int escolhaHotel = input.nextInt();
+
+                QuartoDAO quartoDAO = new QuartoDAO();
+                List<dto.Quarto> quartos = quartoDAO.listarQuartosPorHotel(escolhaHotel);
+
+                if (quartos.isEmpty()) {
+                System.out.println("Nenhum quarto encontrado para o ID de hotel fornecido.");
+                } else {
+                for (dto.Quarto quarto : quartos) {
+                    System.out.println(quarto);
+                }
+                System.out.println("\n");
+                }
+                } catch (IllegalArgumentException e) {
+                System.out.println("Erro: " + e.getMessage());
+                input.nextLine(); // Limpa o buffer
+                } catch (SQLException e) {
+                System.out.println("Erro ao acessar a base de dados: " + e.getMessage());
+                } catch (Exception e) {
+                System.out.println("Ocorreu um erro inesperado: " + e.getMessage());
+                }
+                break;
+            case 2:
+                adicionarQuarto();
+                break;
+            case 3:
+                //atualizarQuarto();
+                break;
+            case 4:
+                deletarQuarto();
+                break;
+            case 5:
+                System.out.println("Voltando ao Menu Principal...");
+                break;
+            default:
+                System.out.println("Entrada inválida! Por favor insira uma das opções a seguir: ");
+        }
+    } while (escolhaQuarto != 5);
+}
+
+private void menuReserva() {
+    int escolhaReserva;
+    do {
+        System.out.println("*----------------------------------------------------*");
+        System.out.println("*                   Menu Reserva                     *");
+        System.out.println("*                                                    *");
+        System.out.println("* 1. Adicionar Reserva                               *");
+        System.out.println("* 2. Listar Reservas                                 *");
+        System.out.println("* 3. Voltar ao Menu Principal                        *");
+        System.out.println("*----------------------------------------------------*");
+        System.out.println("");
+        System.out.println("Escolha uma das opções acima.");
+
+        System.out.print("Escolha: ");
+        while (!input.hasNextInt()) { 
+            System.out.println("Entrada inválida! Por favor, insira um valor válido.");
+            System.out.print("Escolha: ");
+            input.next(); 
+        }
+        escolhaReserva = input.nextInt();
+
+        switch (escolhaReserva) {
+            case 1:
+                adicionarReserva();
+                break;
+            case 2:
+                listarReservas();
+                break;
+            case 3:
+                System.out.println("Voltando ao Menu Principal...");
+                break;
+            default:
+                System.out.println("Entrada inválida! Por favor insira uma das opções a seguir: ");
+        }
+    } while (escolhaReserva != 3);
+}
+
+private void menuClientes() {
+    int escolhaCliente;
+    do {
+        System.out.println("*----------------------------------------------------*");
+        System.out.println("*                   Menu Clientes                    *");
+        System.out.println("*                                                    *");
+        System.out.println("* 1. Adicionar Cliente                               *");
+        System.out.println("* 2. Voltar ao Menu Principal                        *");
+        System.out.println("*----------------------------------------------------*");
+        System.out.println("");
+        System.out.println("Escolha uma das opções acima.");
+
+        System.out.print("Escolha: ");
+        while (!input.hasNextInt()) { 
+            System.out.println("Entrada inválida! Por favor, insira um valor válido.");
+            System.out.print("Escolha: ");
+            input.next(); 
+        }
+        escolhaCliente = input.nextInt();
+
+        switch (escolhaCliente) {
+            case 1:
+                cadastrarCliente();
+                break;
+            case 2:
+                System.out.println("Voltando ao Menu Principal...");
+                break;
+            default:
+                System.out.println("Entrada inválida! Por favor insira uma das opções a seguir: ");
+        }
+    } while (escolhaCliente != 2);
+}
+
 }
 
