@@ -1,25 +1,26 @@
 package dto;
 
 public class Quarto {
-    protected int codigo;
+    protected int id;
     protected int hotel;
     protected String nome;
     protected int camas;
     protected int valor_dia;
+    protected boolean jacuzzi;
+    protected boolean salaDeEstar;
     
-    public Quarto(int codigo, int hotel, String nome, int camas, int valor_dia) {
-        this.codigo = codigo;
+    public Quarto( int hotel, String nome, int camas, int valor_dia, boolean jacuzzi, boolean salaDeEstar) {
         this.hotel = hotel;
         this.nome = nome;
         this.camas = camas;
         this.valor_dia = valor_dia;
     }
 
-    public int getCodigo() {
-        return codigo;
+    public int getId() {
+        return id;
     }
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    public void setId(int id) {
+        this.id = id;
     }
     public int getHotel() {
         return hotel;
@@ -45,9 +46,24 @@ public class Quarto {
     public void setValor_dia(int valor_dia) {
         this.valor_dia = valor_dia;
     }
+    public boolean isJacuzzi() {
+        return jacuzzi;
+    }
+
+    public void setJacuzzi(boolean jacuzzi) {
+        this.jacuzzi = jacuzzi;
+    }
+
+    public boolean isSalaEstar() {
+        return salaDeEstar;
+    }
+
+    public void setsalaDeEstar(boolean salaDeEstar) {
+        this.salaDeEstar = salaDeEstar;
+    }
     
     @Override
     public String toString() {
-        return "QUARTO [id:" + codigo + " | " + nome + " | " + camas + " camas | valor da diária: R$" + valor_dia + ",00 ]";
+        return "QUARTO [id:" + id + " | " + nome + " | " + camas + " camas | valor da diária: R$" + valor_dia + ",00 ]";
     }
 }
