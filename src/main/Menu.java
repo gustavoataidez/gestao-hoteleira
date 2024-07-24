@@ -23,7 +23,6 @@ public class Menu {
     static String resposta;
 
     HotelDAO hotel = new HotelDAO();
-
     
     public void menu() {
 
@@ -58,7 +57,6 @@ public class Menu {
 
             switch (escolha) {
                 case 1:
-                    /*visualizarQuartos();*/
                     hotel.mostrarHoteis();
                     break;
                 case 2:
@@ -120,28 +118,38 @@ public class Menu {
 
 }
 
+public void adicionarReserva() {
+    System.out.print("Digite o ID do hotel: ");
+    int hotelId = input.nextInt();
 
-private void adicionarReserva() {
+    System.out.print("Digite o ID do quarto: ");
+    int quartoId = input.nextInt();
+
+    System.out.print("Digite o nome do cliente: ");
+    String clienteNome = input.next();
+
+    System.out.print("Digite a data de entrada (YYYY-MM-DD): ");
+    Date dataEntrada = Date.valueOf(input.next());
+
+    System.out.print("Digite a data de saída (YYYY-MM-DD): ");
+    Date dataSaida = Date.valueOf(input.next());
+
+    // Verifica se o quarto está disponível
+    if (!reservaDAO.isQuartoDisponivel(hotelId, quartoId, dataEntrada, dataSaida)) {
+        System.out.println("Erro: O quarto não está disponível para o período solicitado.");
+        return;
+    }
+
+    // Se o quarto estiver disponível, adicione a reserva
     Reserva reserva = new Reserva();
-    input.nextLine(); // Limpa o buffer do scanner
-
-    System.out.println("Digite o ID do hotel: ");
-    reserva.setHotel(input.nextInt());
-
-    System.out.println("Digite o ID do quarto: ");
-    reserva.setQuarto(input.nextInt());
-
-    input.nextLine(); // Limpa o buffer do scanner
-    System.out.println("Digite o nome do cliente: ");
-    reserva.setCliente(input.nextLine());
-
-    System.out.println("Digite a data de entrada (AAAA-MM-DD): ");
-    reserva.setRes_data_entrada(Date.valueOf(input.nextLine()));
-
-    System.out.println("Digite a data de saída (AAAA-MM-DD): ");
-    reserva.setRes_data_saida(Date.valueOf(input.nextLine()));
+    reserva.setHotel(hotelId);
+    reserva.setQuarto(quartoId);
+    reserva.setCliente(clienteNome);
+    reserva.setRes_data_entrada(dataEntrada);
+    reserva.setRes_data_saida(dataSaida);
 
     reservaDAO.adicionarReserva(reserva);
+    System.out.println("Reserva adicionada com sucesso!");
 }
 
 private void listarReservas() {

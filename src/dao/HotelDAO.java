@@ -10,14 +10,14 @@ import java.util.List;
 import conexao.Conexao;
 import dto.Hotel;
 
-public class HotelDAO extends BaseDAO { // Herda de BaseDAO
+public class HotelDAO extends BaseDAO {
     public void mostrarHoteis() {
         String sql = "SELECT * FROM HOTEL";
         PreparedStatement ps = null;
 
         try {
-            Connection conn = getConnection(); // Usa o método da classe base
-            ps = conn.prepareStatement(sql); // Usa o método da classe base
+            Connection conn = getConnection();
+            ps = conn.prepareStatement(sql);
             ResultSet resultado = ps.executeQuery();
             while (resultado.next()) {
                 String codigo = resultado.getString("hot_id");
@@ -29,7 +29,7 @@ public class HotelDAO extends BaseDAO { // Herda de BaseDAO
             ps.close();
         } catch (Exception e) {
             System.out.println("ERRO: " + e.getMessage());
-            // Lidar com a exceção aqui
+
         }
     }
 
