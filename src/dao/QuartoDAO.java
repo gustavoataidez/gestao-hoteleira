@@ -2,9 +2,6 @@ package dao;
 
 import dto.Hotel;
 import dto.Quarto;
-import dto.QuartoDeluxe;
-import dto.QuartoPresidencial;
-import dto.QuartoStandard;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +24,6 @@ public class QuartoDAO extends BaseDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("qua_id");
                 int numero = rs.getInt("qua_hot");
                 String nome = rs.getString("qua_nome");
                 int camas = rs.getInt("qua_camas");

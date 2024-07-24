@@ -6,8 +6,13 @@ import java.sql.SQLException;
 
 import conexao.Conexao;
 
-public class PessoaJuridicaDAO {
+public class PessoaJuridicaDAO extends PessoaDAO {
     public static void cadastrarPessoaJuridica(dto.PessoaJuridica pj) {
+        if (existeUsuario(pj.getUser())) {
+            System.out.println("Erro: Usuário já cadastrado.");
+            return; // Impede o cadastro se o usuário já existir
+        }
+
     // SQL para inserir na tabela Pessoa
     String sqlPessoa = "INSERT INTO pessoa (usuario, nome, telefone) VALUES (?, ?, ?)";
     // SQL para inserir na tabela pessoa_juridica

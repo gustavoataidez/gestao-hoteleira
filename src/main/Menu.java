@@ -167,6 +167,19 @@ private void cadastrarCliente() {
 private void adicionarPessoaFisica(){
     PessoaFisica pf = new PessoaFisica();
 
+    while (true) {
+        System.out.println("User: ");
+        String user = input.nextLine().trim();
+
+        // Verificar se o usuário já existe na tabela Pessoa
+        if (!PessoaJuridicaDAO.existeUsuario(user)) {
+            pf.setUser(user); // Define o usuário válido no objeto PessoaJuridica
+            break; // Sai do loop quando um usuário válido for fornecido
+        } else {
+            System.out.println("Erro: Esse usuário já existe. Tente novamente.");
+        }
+    }
+
     System.out.println("User: ");
     pf.setUser(input.nextLine());
 
@@ -188,8 +201,18 @@ private void adicionarPessoaFisica(){
 private void adicionarPessoaJuridica(){
     PessoaJuridica pj = new PessoaJuridica();
 
-    System.out.println("User: ");
-    pj.setUser(input.nextLine());
+    while (true) {
+        System.out.println("User: ");
+        String user = input.nextLine().trim();
+
+        // Verificar se o usuário já existe na tabela Pessoa
+        if (!PessoaJuridicaDAO.existeUsuario(user)) {
+            pj.setUser(user); // Define o usuário válido no objeto PessoaJuridica
+            break; // Sai do loop quando um usuário válido for fornecido
+        } else {
+            System.out.println("Erro: Esse usuário já existe. Tente novamente.");
+        }
+    }
 
     System.out.println("Nome: ");
     pj.setNome(input.nextLine());
