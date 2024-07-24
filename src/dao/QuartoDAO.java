@@ -1,5 +1,6 @@
 package dao;
 
+import dto.Hotel;
 import dto.Quarto;
 import dto.QuartoDeluxe;
 import dto.QuartoPresidencial;
@@ -84,6 +85,24 @@ public class QuartoDAO extends BaseDAO {
            
         } catch (Exception e) {
             System.out.println("Erro ao adicionar quarto: " + e.getMessage());
+        }
+    }
+    public void deletarQuarto(int id, Hotel hotel) {
+        String sql = "DELETE FROM QUARTO WHERE qua_id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+            System.out.println("Quarto deletado com sucesso!");
+
+            // Atualizar a lista de quartos do hotel
+            hotel.getQuartos().removeIf(quarto -> quarto.getId() == id);
+
+        } catch (SQLException e) {
+            System.out.println("ERRO: " + e.getMessage());
         }
     }
 }

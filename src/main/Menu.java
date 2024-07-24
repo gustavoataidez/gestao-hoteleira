@@ -130,7 +130,7 @@ public class Menu {
                     //atualizarQuarto();
                     break;
                 case 11:
-                   // deletarQuarto();
+                   deletarQuarto();
                     break;
                 case 12:
                     System.out.println("Obrigado!");
@@ -544,4 +544,32 @@ private void adicionarQuarto() {
     QuartoDAO quartoDAO = new QuartoDAO();
     quartoDAO.adicionarQuarto(quarto);
 }
+
+private void deletarQuarto() {
+    System.out.println("Deletar quarto existente");
+    System.out.println("Digite o ID do hotel: ");
+    int hotelId = input.nextInt();
+    input.nextLine(); 
+
+    System.out.println("Digite o ID do quarto: ");
+    int id = input.nextInt();
+    input.nextLine(); 
+
+
+    
+    HotelDAO hotelDAO = new HotelDAO();
+    QuartoDAO quartoDAO = new QuartoDAO();
+
+
+    Hotel hotel = hotelDAO.obterHotelPorId(hotelId);
+
+    if (hotel == null) {
+        System.out.println("Hotel não encontrado.");
+        return;
+    }
+
+    
+    quartoDAO.deletarQuarto(id, hotel);
 }
+}
+
