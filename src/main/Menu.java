@@ -7,9 +7,13 @@ import java.util.List;
 import java.util.Scanner;
 
 import dao.HotelDAO;
+import dao.PessoaFisicaDAO;
+import dao.PessoaJuridicaDAO;
 import dao.QuartoDAO;
 import dao.ReservaDAO;
 import dto.Hotel;
+import dto.PessoaFisica;
+import dto.PessoaJuridica;
 import dto.Reserva;
 
 public class Menu {
@@ -38,6 +42,7 @@ public class Menu {
             System.out.println("* 5. Deletar Hotel                                   *");
             System.out.println("* 6. Adicionar Reserva                               *");
             System.out.println("* 7. Listar Reservas                                 *");
+            System.out.println("* 81. Adicionar Cliente                              *");
             System.out.println("* 9. Sair do Programa                                *");
             System.out.println("*----------------------------------------------------*");
             System.out.println("");
@@ -108,6 +113,9 @@ public class Menu {
                 case 7:
                     listarReservas();
                     break;
+                case 81:
+                    cadastrarCliente();
+                    break;
                 case 9:
                     System.out.println("Obrigado!");
                     break;
@@ -116,6 +124,70 @@ public class Menu {
             }
         } while (escolha != 1 && escolha != 2 && escolha != 9);
 
+}
+
+private void cadastrarCliente() {
+    String siglaPessoa = "";
+    boolean entradaValida = false;
+
+    System.out.println("Digite 'PF' se pessoa física, ou 'PJ' se empresa: ");
+
+    while (!entradaValida) {
+        siglaPessoa = input.nextLine().trim(); 
+
+        if (siglaPessoa.equalsIgnoreCase("PF")) {
+            adicionarPessoaFisica();
+            entradaValida = true;
+        } else if (siglaPessoa.equalsIgnoreCase("PJ")) {
+            adicionarPessoaJuridica();
+            entradaValida = true;
+        } else if (!siglaPessoa.isEmpty()) {
+            System.out.println("Entrada inválida! Digite apenas 'PF' se pessoa física, ou 'PJ' se empresa.");
+        }
+    }
+}
+
+
+private void adicionarPessoaFisica(){
+    PessoaFisica pf = new PessoaFisica();
+
+    System.out.println("User: ");
+    pf.setUser(input.nextLine());
+
+    System.out.println("Nome: ");
+    pf.setNome(input.nextLine());
+
+    System.out.println("Telefone: ");
+    pf.setTel(input.nextLine());
+
+    System.out.println("Sexo (S/M/O): ");
+    pf.setSexo(input.nextLine());
+
+    System.out.println("CPF: ");
+    pf.setCpf(input.nextInt());
+
+    PessoaFisicaDAO.cadastrarPessoaFisica(pf);
+}
+
+private void adicionarPessoaJuridica(){
+    PessoaJuridica pj = new PessoaJuridica();
+
+    System.out.println("User: ");
+    pj.setUser(input.nextLine());
+
+    System.out.println("Nome: ");
+    pj.setNome(input.nextLine());
+
+    System.out.println("Telefone: ");
+    pj.setTel(input.nextLine());
+
+    System.out.println("Razao Social: ");
+    pj.setRazao(input.nextLine());
+
+    System.out.println("Cnpj: ");
+    pj.setCnpj(input.nextInt());
+
+    PessoaJuridicaDAO.cadastrarPessoaJuridica(pj);
 }
 
 public void adicionarReserva() {
