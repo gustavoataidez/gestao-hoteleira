@@ -14,6 +14,10 @@ import dao.ReservaDAO;
 import dto.Hotel;
 import dto.PessoaFisica;
 import dto.PessoaJuridica;
+import dto.Quarto;
+import dto.QuartoDeluxe;
+import dto.QuartoPresidencial;
+import dto.QuartoStandard;
 import dto.Reserva;
 
 public class Menu {
@@ -42,8 +46,11 @@ public class Menu {
             System.out.println("* 5. Deletar Hotel                                   *");
             System.out.println("* 6. Adicionar Reserva                               *");
             System.out.println("* 7. Listar Reservas                                 *");
-            System.out.println("* 81. Adicionar Cliente                              *");
-            System.out.println("* 9. Sair do Programa                                *");
+            System.out.println("* 8. Adicionar Cliente                               *");
+            System.out.println("* 9. Adicionar Quarto                                *");
+            System.out.println("* 10. Atualizar Quarto                               *");
+            System.out.println("* 11. Deletar Quarto                                 *");
+            System.out.println("* 12. Sair do Programa                               *");
             System.out.println("*----------------------------------------------------*");
             System.out.println("");
             System.out.println("Escolha uma das opções acima. (Ex: Digite '1' para visualizar todos os hoteis)");
@@ -113,10 +120,19 @@ public class Menu {
                 case 7:
                     listarReservas();
                     break;
-                case 81:
+                case 8:
                     cadastrarCliente();
                     break;
                 case 9:
+                    adicionarQuarto();
+                    break;
+                case 10:
+                    //atualizarQuarto();
+                    break;
+                case 11:
+                   // deletarQuarto();
+                    break;
+                case 12:
                     System.out.println("Obrigado!");
                     break;
                 default:
@@ -475,5 +491,57 @@ private void deletarHotel() {
 
     hotelDAO.deletarHotel(id); // Chama o método através da instância hotel
 }
+private void adicionarQuarto() {
+    System.out.println("Digite o ID do hotel ao qual deseja adicionar um quarto: ");
+    int hotelId = input.nextInt();
+    input.nextLine(); // Consumir a nova linha após a entrada do ID do hotel
 
+    HotelDAO hotelDAO = new HotelDAO(); // Criação da instância de HotelDAO
+    Hotel hotel = hotelDAO.obterHotelPorId(hotelId); // Chamada do método através da instância
+
+    if (hotel == null) {
+        System.out.println("Hotel não encontrado.");
+        return;
+    }
+
+    System.out.println("Digite o número de camas:");
+    int camas = input.nextInt();
+    input.nextLine(); // Consumir a nova linha após a entrada do número de camas
+
+    System.out.println("Digite o valor diário:");
+    int valorDia = input.nextInt();
+    input.nextLine(); // Consumir a nova linha após a entrada do valor diário
+
+    System.out.println("O quarto tem sala de estar? (s/n)");
+    boolean temSalaDeEstar = input.nextLine().equalsIgnoreCase("s");
+
+    System.out.println("O quarto tem jacuzzi? (s/n)");
+    boolean temJacuzzi = input.nextLine().equalsIgnoreCase("s");
+
+    // Criar o quarto com base nas condições
+    Quarto quarto;
+
+    String nomeQuarto;
+    if (temSalaDeEstar || temJacuzzi) {
+        nomeQuarto = "Quarto Presidencial";
+        quarto = new QuartoPresidencial(hotel.getId(), nomeQuarto, camas, valorDia, temJacuzzi, temSalaDeEstar);
+        System.out.println("Quarto Presidencial adicionado com sucesso!");
+    } else if (temJacuzzi) {
+        nomeQuarto = "Quarto Deluxe";
+        quarto = new QuartoDeluxe(hotel.getId(), nomeQuarto, camas, valorDia, temJacuzzi);
+        System.out.println("Quarto Deluxe adicionado com sucesso!");
+    } else {
+        nomeQuarto = "Quarto Standard";
+        quarto = new QuartoStandard(hotel.getId(), nomeQuarto, camas, valorDia);
+        System.out.println("Quarto Standard adicionado com sucesso!");
+    }
+
+    // Atualize o quarto com o nome definido
+    quarto.setNome(nomeQuarto);
+
+    // O ID do quarto será preenchido automaticamente no banco de dados, então não é necessário definir o ID aqui
+
+    QuartoDAO quartoDAO = new QuartoDAO();
+    quartoDAO.adicionarQuarto(quarto);
+}
 }
