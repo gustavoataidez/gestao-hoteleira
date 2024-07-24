@@ -23,11 +23,11 @@ public class Menu {
     static String resposta;
 
     HotelDAO hotel = new HotelDAO();
-    
+
     public void menu() {
 
         do {
-            
+
             System.out.println("*----------------------------------------------------*");
             System.out.println("*          Sistema de Gerenciamento de Hoteis        *");
             System.out.println("*                                                    *");
@@ -43,10 +43,10 @@ public class Menu {
             System.out.println("");
             System.out.println("Escolha uma das opções acima. (Ex: Digite '1' para visualizar todos os hoteis)");
 
-            
+
             System.out.println();
             System.out.print("Escolha: ");
-            
+
 
             while (!input.hasNextInt()) { // Verifica se a entrada do usuário não é um número inteiro
                 System.out.println("Entrada inválida! Por favor, insira um valor válido.");
@@ -60,7 +60,7 @@ public class Menu {
                     hotel.mostrarHoteis();
                     break;
                 case 2:
-                    
+
                     System.out.println("Digite o ID do hotel: ");
                     try {
                         if (!input.hasNextInt()) {
@@ -92,19 +92,19 @@ public class Menu {
                 case 3:
                     adicionarHotel();
                     break;
-                    
+
                 case 4:
                 atualizarHotel();
                 break;
 
                 case 5:
                     deletarHotel();
-                    break;   
+                    break;
 
                 case 6:
                     adicionarReserva();
                     break;
-                    
+
                 case 7:
                     listarReservas();
                     break;
@@ -216,7 +216,7 @@ private void adicionarHotel() {
 }
 
 private void atualizarHotel() {
-    
+
     System.out.println("Digite o ID do hotel a ser atualizado: ");
     int id;
     try {
@@ -364,7 +364,7 @@ private void atualizarHotel() {
             default:
                 System.out.println("Entrada inválida! Por favor, escolha uma opção válida.");
         }
-        
+
         if (atualizarOutroCampo) {
             System.out.println("Deseja atualizar outro campo? (s/n)");
             String resposta = input.nextLine();
