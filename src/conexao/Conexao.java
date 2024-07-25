@@ -7,7 +7,7 @@ public class Conexao {
     public static Connection getConexao() {
         try {
             Connection conn = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/hoteis2",
+                "jdbc:postgresql://localhost:5432/hoteis",
                 "postgres",
                 "1234"
             );

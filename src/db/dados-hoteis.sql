@@ -14,7 +14,9 @@ VALUES ('usuario2', 'Bruno Souza', '987654321');
 
 -- Inserção na tabela funcionario
 INSERT INTO funcionario (fun_usuario, fun_nome, fun_cpf, fun_sexo, fun_cargo, fun_salario) VALUES
-('usuario2', 'Bruno Souza', 234568901, 'M', 'Gerente', 500)
+('usuario2', 'Bruno Souza', 234568901, 'M', 'Gerente', 500);
+
+INSERT INTO funcionario (fun_usuario, fun_nome, fun_cpf, fun_sexo, fun_cargo, fun_salario) VALUES
 ('usuario1', 'Ana Silva', 1234567890, 'F', 'Recepcionista', 200),;
 
 
@@ -73,4 +75,3 @@ INSERT INTO quarto (qua_hot, qua_nome, qua_camas, qua_valor_dia) VALUES
 (5, 'Luxo Simples', 2, 60.00),
 (5, 'Luxo Duplo', 2, 60.00),
 (5, 'Quarto Família', 4, 100.00);
-

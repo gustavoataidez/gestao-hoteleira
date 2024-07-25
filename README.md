@@ -1,4 +1,6 @@
-# Sistema de Gerenciamento de Hotéis
+# Sistema de Gerenciamento de Hotéis OOP
+
+<img alt="tela-menu" src="src/assets/image.png">
 
 ## Descrição
 

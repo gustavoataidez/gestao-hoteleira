@@ -57,17 +57,17 @@ public class Menu {
             System.out.println("*----------------------------------------------------*");
             System.out.println("");
             System.out.println("Escolha uma das opções acima.");
-    
+
             System.out.println();
             System.out.print("Escolha: ");
-    
-            while (!input.hasNextInt()) { 
+
+            while (!input.hasNextInt()) {
                 System.out.println("Entrada inválida! Por favor, insira um valor válido.");
                 System.out.print("Escolha: ");
-                input.next(); 
+                input.next();
             }
             escolha = input.nextInt();
-    
+
             switch (escolha) {
                 case 1:
                     menuHoteis();
@@ -87,9 +87,9 @@ public class Menu {
                 default:
                     System.out.println("Entrada inválida! Por favor insira uma das opções a seguir: ");
             }
-            
+
          } while (escolha != 5);
-        
+
     }
 
 
@@ -100,7 +100,7 @@ private void cadastrarCliente() {
     System.out.println("Digite 'PF' se pessoa física, ou 'PJ' se empresa: ");
 
     while (!entradaValida) {
-        siglaPessoa = input.nextLine().trim(); 
+        siglaPessoa = input.nextLine().trim();
 
         if (siglaPessoa.equalsIgnoreCase("PF")) {
             adicionarPessoaFisica();
@@ -246,7 +246,7 @@ public void adicionarReserva() {
         return;
     }
 
-    
+
     // Calcular o valor total da diária
     int valorDiaria = getValorDiaria(quartoId);
     long diffInMillies = Math.abs(dataSaida.getTime() - dataEntrada.getTime());
@@ -517,10 +517,10 @@ private void deletarHotel() {
     int id;
     try {
         id = input.nextInt();
-        input.nextLine(); 
+        input.nextLine();
     } catch (InputMismatchException e) {
         System.out.println("ID inválido! Por favor, insira um número.");
-        input.nextLine(); 
+        input.nextLine();
         return;
     }
 
@@ -536,7 +536,7 @@ private void deletarHotel() {
 private void adicionarQuarto() {
     System.out.println("Digite o ID do hotel ao qual deseja adicionar um quarto: ");
     int hotelId = input.nextInt();
-    input.nextLine(); 
+    input.nextLine();
 
     HotelDAO hotelDAO = new HotelDAO(); // Criação da instância de HotelDAO
     Hotel hotel = hotelDAO.obterHotelPorId(hotelId); // Chamada do método através da instância
@@ -548,11 +548,11 @@ private void adicionarQuarto() {
 
     System.out.println("Digite o número de camas:");
     int camas = input.nextInt();
-    input.nextLine(); 
+    input.nextLine();
 
     System.out.println("Digite o valor diário:");
     int valorDia = input.nextInt();
-    input.nextLine(); 
+    input.nextLine();
 
     System.out.println("O quarto tem sala de estar? (s/n)");
     boolean temSalaDeEstar = input.nextLine().equalsIgnoreCase("s");
@@ -560,7 +560,7 @@ private void adicionarQuarto() {
     System.out.println("O quarto tem jacuzzi? (s/n)");
     boolean temJacuzzi = input.nextLine().equalsIgnoreCase("s");
 
-    
+
     Quarto quarto;
 
     String nomeQuarto;
@@ -591,14 +591,14 @@ private void deletarQuarto() {
     System.out.println("Deletar quarto existente");
     System.out.println("Digite o ID do hotel: ");
     int hotelId = input.nextInt();
-    input.nextLine(); 
+    input.nextLine();
 
     System.out.println("Digite o ID do quarto: ");
     int id = input.nextInt();
-    input.nextLine(); 
+    input.nextLine();
 
 
-    
+
     HotelDAO hotelDAO = new HotelDAO();
     QuartoDAO quartoDAO = new QuartoDAO();
 
@@ -610,7 +610,7 @@ private void deletarQuarto() {
         return;
     }
 
-    
+
     quartoDAO.deletarQuarto(id, hotel);
 }
 private void menuHoteis() {
@@ -629,10 +629,10 @@ private void menuHoteis() {
         System.out.println("Escolha uma das opções acima.");
 
         System.out.print("Escolha: ");
-        while (!input.hasNextInt()) { 
+        while (!input.hasNextInt()) {
             System.out.println("Entrada inválida! Por favor, insira um valor válido.");
             System.out.print("Escolha: ");
-            input.next(); 
+            input.next();
         }
         escolhaHotel = input.nextInt();
 
@@ -674,10 +674,10 @@ private void menuQuartos() {
         System.out.println("Escolha uma das opções acima.");
 
         System.out.print("Escolha: ");
-        while (!input.hasNextInt()) { 
+        while (!input.hasNextInt()) {
             System.out.println("Entrada inválida! Por favor, insira um valor válido.");
             System.out.print("Escolha: ");
-            input.next(); 
+            input.next();
         }
         escolhaQuarto = input.nextInt();
 
@@ -742,10 +742,10 @@ private void menuReserva() {
         System.out.println("Escolha uma das opções acima.");
 
         System.out.print("Escolha: ");
-        while (!input.hasNextInt()) { 
+        while (!input.hasNextInt()) {
             System.out.println("Entrada inválida! Por favor, insira um valor válido.");
             System.out.print("Escolha: ");
-            input.next(); 
+            input.next();
         }
         escolhaReserva = input.nextInt();
 
@@ -779,10 +779,10 @@ private void menuClientes() {
         System.out.println("Escolha uma das opções acima.");
 
         System.out.print("Escolha: ");
-        while (!input.hasNextInt()) { 
+        while (!input.hasNextInt()) {
             System.out.println("Entrada inválida! Por favor, insira um valor válido.");
             System.out.print("Escolha: ");
-            input.next(); 
+            input.next();
         }
         escolhaCliente = input.nextInt();
 
@@ -812,9 +812,6 @@ private void adicionarFuncionario(){
     System.out.println("Nome: ");
     funcionario.setNome(input.nextLine());
 
-    System.out.println("Telefone: ");
-    funcionario.setTel(input.nextLine());
-
     System.out.println("CPF: ");
     funcionario.setCpf(input.nextInt());
 
@@ -832,4 +829,3 @@ private void adicionarFuncionario(){
 
 
 }
-
